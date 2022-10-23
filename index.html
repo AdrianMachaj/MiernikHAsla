@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miernik hasła</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #modul1{margin-left: 15%; margin-right: 15%;}
+        #modul2{margin-left: 10%; margin-right: 10%;}
+    </style>
+
+
+    </head>
+<body>
+    
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+
+
+        function scorePassword(pass) {
+    var wynik = 0;
+    var warianty = {
+        cyfry: /\d/.test(pass),
+        male: /[a-z]/.test(pass),
+        duze: /[A-Z]/.test(pass),
+        specjalne: /\W/.test(pass),
+        dlugosc: pass.length > 7
+    };
+    for(var war in warianty)
+      if(warianty[war] == true) wynik += 100 / 5;
+  
+    var color = '';
+    
+    if(wynik < 50) color ='red';
+    else if(wynik > 50 && wynik < 100) color ='yellow';
+    else if(wynik == 100) color = 'green';
+    $("#strength_score").text(wynik + '%');
+    $("#strength_score").css('background-color', color);
+    return parseInt(wynik);
+}
+
+$(function() {
+    $("#password").on("keypress keyup keydown", function() {
+        scorePassword($(this).val());
+    });
+});
+
+
+    </script>
+
+<nav class="navbar bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand  href="#">
+        <h3>Sprawdz czy hasło jest dobre!</h3>
+      </a>
+    </div>
+  </nav>
+
+<nav class="navbar navbar-expand-lg bg-primary">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link  text-light" class="text-light" href="#">Sprawdzamy twoje hasło</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">Trworzymy mocne hasła</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<div id="modul1"
+
+<label for="inputPassword5" class="form-label"><br><b>Wpisz hasło</b></label>
+<input type="password"  class="form-control" aria-describedby="passwordHelpBlock" id="password">
+<div>
+    <br> <b>Jak twoje haslo jest mocne:</b>
+    <div class="figure" id="strength_score">0%</div>
+</div>
+
+<div id="newPassword">
+<button type="button" class="btn btn-outline-primary" onclick="generatePassword()">Wygeneruj lepsze hasło!</button>
+
+
+
+<script>
+    function generatePassword() {
+    var length = 4,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_!@#$%&",
+        retVal = document.getElementById('password').value;
+    for (var i = 0, n = charset.length; i < length; ++i) {
+     retVal+=  charset.charAt(Math.floor(Math.random() * n));
+    }
+    alert("Proponujemy Ci hasło:   " + retVal );
+}
+</script>
+</div>
+</div>
+
+
+<div id="modul2">
+<br>
+<h2>Czesto uzywane hasła!</h2>
+<div id="demo">
+<p>Dzięki nam poznasz najbardziej uzywane hasła.</p>
+<button type="button" class="btn btn-primary btn-lg" onclick="loadDoc()">Pokaż hasła!</button>
+</div>
+<script>
+var url='http://localhost/project/password.xml';
+function loadDoc() {
+var xhr = new XMLHttpRequest();
+xhr.open('GET', url, true);
+xhr.onload = function () {
+  console.log(xhr.responseURL); 
+   document.getElementById("demo").innerHTML = this.responseText;
+};
+xhr.send(null);}
+</script>
+</div>
+
+
+
+</body>
+</html>
